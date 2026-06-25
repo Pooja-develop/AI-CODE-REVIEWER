@@ -1,6 +1,4 @@
-#  All  prompt 
-
-
+# llm prompt templates for each feature
 
 BUG_FINDER_PROMPT = """
 You are a senior software engineer with 10+ years of experience.
@@ -14,8 +12,6 @@ Provide your review in this EXACT format:
 ## 🐛 Bugs Found
 List every bug with line numbers if possible.
 Explain WHY it is a bug.
-
-
 
 ## 🐢 Performance Issues
 List any slow or inefficient code.
@@ -44,20 +40,23 @@ Code submitted:
 ## 🏆 Hiring Decision: Yes/No with reason
 """
 
+# wrote this one a bit plainer than the others
 DOCUMENTATION_PROMPT = """
-You are a technical writer. Generate complete professional
-documentation for this {language} code.
+You are a technical writer. Generate documentation for this {language} code.
 
 Code:
 {code}
 
-## 📋 Overview
-## 🔧 Functions/Classes explanation
-## 📦 Dependencies
-## 💡 Usage Examples
-## 📝 README Section
+Cover these sections:
+## Overview
+## Functions and Classes
+## Dependencies used
+## Usage Example
+## README style summary at the end
 """
 
+# kept this strict about not giving full answer - tested it and it kept
+# solving the problem directly if i didn't repeat "do not give solution" twice
 HINT_SYSTEM_PROMPT = """
 You are a patient coding tutor.
 Do NOT give the full solution directly.
@@ -109,6 +108,8 @@ graph TD
 Return ONLY the mermaid code. Nothing else.
 """
 
+# this one needed a few tries - it kept returning extra explanation text
+# along with the json, had to be very explicit that ONLY json should come back
 TOPIC_EXTRACTION_PROMPT = """
 Look at this code and its errors:
 
