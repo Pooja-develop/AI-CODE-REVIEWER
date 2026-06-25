@@ -13,7 +13,6 @@ from prompts import (
 
 load_dotenv()
 
-
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 def call_llm(prompt, temperature=0.3):
@@ -37,7 +36,7 @@ def call_llm(prompt, temperature=0.3):
         return response.choices[0].message.content
 
     except Exception as e:
-        return f"❌ Error: {str(e)}"
+        return f"Error: {str(e)}"
 
 
 def find_bugs(code, language):
@@ -85,13 +84,14 @@ def detect_language(code):
         return "Unknown"
 
 
+# not currently called from main.py - was using this before i moved the
+# diagram prompt inline into the bug finder route. keeping it here for now
 def generate_mermaid_diagram(error_explanation, language):
-    
-    prompt = """
+    prompt = f"""
 Create a detailed Mermaid flowchart that explains the code flow and where the bug occurs.
 
-Language: """ + language + """
-Error found: """ + error_explanation[:400] + """
+Language: {language}
+Error found: {error_explanation[:400]}
 
 Rules:
 - Start exactly with: graph TD
@@ -111,7 +111,6 @@ Return ONLY the graph TD code. Nothing else.
 
 
 def explain_topic(topic_name):
-    
     prompt = f"""
     Explain the programming concept: {topic_name}
 
