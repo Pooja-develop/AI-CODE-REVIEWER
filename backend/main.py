@@ -38,7 +38,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
-#  CORS 
+# cors setup so frontend can call this
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -85,8 +85,7 @@ class RunCodeRequest(BaseModel):
     stdin: Optional[str] = ""
 
 
-# TEST ROUTES
-
+# basic health check routes
 @app.get("/")
 def home():
     return {
@@ -99,10 +98,7 @@ def home():
 def health():
     return {"status": "healthy"}
 
-
-# AUTH ROUTES
-
-
+# auth routes - signup and signin
 @app.post("/auth/signup")
 async def signup(request: SignupRequest):
     try:
@@ -113,7 +109,7 @@ async def signup(request: SignupRequest):
         )
         return {"success": success, "message": message}
     except Exception as e:
-        return {"success": False, "message": f"❌ Error: {str(e)}"}
+        return {"success": False, "message": f"Error: {str(e)}"}
 
 @app.post("/auth/signin")
 def signin(request: SigninRequest):
@@ -140,9 +136,7 @@ def user_info(username: str):
         }
     return {"success": False, "message": "User not found"}
 
-
-# 1 — BUG FINDER WITH DIAGRAM
-
+#  bug finder with mermaid diagram
 @app.post("/review/bug-with-diagram")
 def bug_finder_with_diagram(request: BugWithDiagramRequest):
     try:
@@ -153,12 +147,11 @@ def bug_finder_with_diagram(request: BugWithDiagramRequest):
         
         bug_result = find_bugs(request.code, language)
 
-        
-        diagram_prompt = """
-Create a detailed Mermaid flowchart that explains how this """ + language + """ code works step by step.
+        diagram_prompt = f"""
+Create a detailed Mermaid flowchart that explains how this {language} code works step by step.
 
 Code:
-""" + request.code + """
+{request.code}
 
 Rules:
 - Start exactly with: graph TD
@@ -177,18 +170,18 @@ Return ONLY the graph TD code. Nothing else.
             diagram = "graph TD\n    A[Code Start] --> B[Process]\n    B --> C[Bug Found]\n    C --> D[Fix Required]"
 
         
-        topic_prompt = """
+        topic_prompt = f"""
 Look at this code error and list exactly 3 programming topics to learn.
 Return ONLY a JSON array like: ["Topic1", "Topic2", "Topic3"]
-Error: """ + bug_result[:300]
+Error: {bug_result[:300]}
+"""
 
         topics_raw = call_llm(topic_prompt, temperature=0.1)
         try:
             clean = topics_raw.replace('```json', '').replace('```', '').strip()
             topics = json.loads(clean)
-        except:
+        except Exception:
             topics = ["Data Structures", "Time Complexity", "Error Handling"]
-
         save_review_history(
             request.username, "Bug Finder",
             language, request.code, bug_result
@@ -206,14 +199,12 @@ Error: """ + bug_result[:300]
     except Exception as e:
         return {
             "success": False,
-            "bug_explanation": f"❌ Error: {str(e)}",
+            "bug_explanation": f"Error: {str(e)}",
             "mermaid_diagram": "graph TD\n    A[Error] --> B[Check Code]",
             "topics_to_learn": ["Functions", "Variables", "Loops"]
         }
 
-#  2 — INTERVIEW EVALUATOR
-
-
+# interview evaluate for faang companies
 @app.post("/review/interview")
 def interview_evaluator(request: ReviewRequest):
     try:
@@ -230,12 +221,9 @@ def interview_evaluator(request: ReviewRequest):
 
         return {"success": True, "result": result, "language": language}
     except Exception as e:
-        return {"success": False, "result": f"❌ Error: {str(e)}"}
+        return {"success": False, "result": f"Error: {str(e)}"}
 
-
-#3 — AUTO DOCUMENTATION
-
-
+#Auto documentation of a codes
 @app.post("/review/docs")
 def auto_documentation(request: ReviewRequest):
     try:
@@ -252,11 +240,9 @@ def auto_documentation(request: ReviewRequest):
 
         return {"success": True, "result": result, "language": language}
     except Exception as e:
-        return {"success": False, "result": f"❌ Error: {str(e)}"}
+        return {"success": False, "result": f"Error: {str(e)}"}
 
-
-# 4 — HINT SYSTEM
-
+# hint system 
 @app.post("/review/hint")
 def hint_system(request: ReviewRequest):
     try:
@@ -273,11 +259,9 @@ def hint_system(request: ReviewRequest):
 
         return {"success": True, "result": result, "language": language}
     except Exception as e:
-        return {"success": False, "result": f"❌ Error: {str(e)}"}
+        return {"success": False, "result": f"Error: {str(e)}"}
 
-#  5 — COMPLEXITY ANALYZER
-
-
+# Complexity analyzer
 @app.post("/review/complexity")
 def complexity_analyzer(request: ReviewRequest):
     try:
@@ -294,10 +278,9 @@ def complexity_analyzer(request: ReviewRequest):
 
         return {"success": True, "result": result, "language": language}
     except Exception as e:
-        return {"success": False, "result": f"❌ Error: {str(e)}"}
+        return {"success": False, "result": f"Error: {str(e)}"}
 
 # TOPIC EXPLANATION
-
 @app.post("/topic/explain")
 def explain_topic_route(request: TopicRequest):
     try:
@@ -308,12 +291,10 @@ def explain_topic_route(request: TopicRequest):
             "explanation": explanation
         }
     except Exception as e:
-        return {"success": False, "explanation": f"❌ Error: {str(e)}"}
+        return {"success": False, "explanation": f"Error: {str(e)}"}
 
 
-# RUN CODE — GLOT.IO 
-
-
+# run code in glot.io for all languages
 GLOT_LANGUAGE_MAP = {
     "python": "python",
     "javascript": "javascript",
@@ -386,7 +367,7 @@ async def run_code(request: RunCodeRequest):
 
         ai_explanation = ""
         if has_error and error_text:
-            explain_prompt = """
+            explain_prompt =  """
 A student ran this """ + request.language + """ code and got an error.
 
 Code:
@@ -416,14 +397,13 @@ Explain clearly for a beginner student:
         return {
             "success": False,
             "output": "",
-            "error": f"❌ Error: {str(e)}",
+            "error": f"Error: {str(e)}",
             "has_error": True,
             "ai_explanation": "",
             "language": request.language
         }
     
 # PROGRESS DASHBOARD
-
 @app.get("/user/progress/{username}")
 def get_progress(username: str):
     """Get user progress stats for dashboard"""
