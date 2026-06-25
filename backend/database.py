@@ -3,6 +3,7 @@
 import psycopg2
 import psycopg2.extras
 import hashlib
+import bcrypt
 import os
 from datetime import datetime
 from dotenv import load_dotenv
@@ -11,7 +12,6 @@ load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 def get_connection():
-    
     try:
         conn = psycopg2.connect(DATABASE_URL)
         return conn
@@ -20,11 +20,12 @@ def get_connection():
         return None
 
 def hash_password(password):
-    
-    return hashlib.sha256(password.encode()).hexdigest()
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+
+def verify_password(password, hashed):
+    return bcrypt.checkpw(password.encode(), hashed.encode())
 
 def signup_user(username, email, password):
-    
     if len(username) < 3:
         return False, " Username must be at least 3 characters!"
     if len(password) < 6:
@@ -35,7 +36,6 @@ def signup_user(username, email, password):
     conn = get_connection()
     if not conn:
         return False, "Database connection failed!"
-
     try:
         cursor = conn.cursor()
         cursor.execute("""
@@ -68,12 +68,10 @@ def signup_user(username, email, password):
         return False, f"Error: {str(e)}"
 
 def signin_user(username, password):
-   
-    conn = get_connection()
-    if not conn:
+   conn = get_connection()
+   if not conn:
         return False, "Database connection failed!"
-
-    try:
+   try:
         cursor = conn.cursor(
             cursor_factory=psycopg2.extras.RealDictCursor
         )
@@ -87,21 +85,18 @@ def signin_user(username, password):
 
         if not user:
             return False, " Username not found!"
-        if user["password"] != hash_password(password):
-            return False, " Wrong password!"
+        if not verify_password(password, user["password"]):
+            return False, "Wrong password!"
 
         return True, "Login successful!"
-
-    except Exception as e:
+   except Exception as e:
         conn.close()
         return False, f"Login error: {str(e)}"
 
 def get_user_info(username):
-    
     conn = get_connection()
     if not conn:
         return None
-
     try:
         cursor = conn.cursor(
             cursor_factory=psycopg2.extras.RealDictCursor
@@ -120,11 +115,9 @@ def get_user_info(username):
         return None
 
 def update_review_count(username):
-    
     conn = get_connection()
     if not conn:
         return
-
     try:
         cursor = conn.cursor()
         cursor.execute("""
@@ -141,11 +134,9 @@ def update_review_count(username):
         conn.close()
 
 def save_review_history(username, mode, language, code, result):
-    
     conn = get_connection()
     if not conn:
         return
-
     try:
         cursor = conn.cursor()
         cursor.execute("""
@@ -169,11 +160,9 @@ def save_review_history(username, mode, language, code, result):
         conn.close()
 
 def get_user_reviews(username):
-    
     conn = get_connection()
     if not conn:
         return []
-
     try:
         cursor = conn.cursor(
             cursor_factory=psycopg2.extras.RealDictCursor
@@ -194,11 +183,9 @@ def get_user_reviews(username):
         return []
 
 def save_topic_learned(username, topic_name):
-    
     conn = get_connection()
     if not conn:
         return
-
     try:
         cursor = conn.cursor()
         cursor.execute("""
@@ -215,11 +202,9 @@ def save_topic_learned(username, topic_name):
         conn.close()
 
 def save_bug_history(username, original_code, bugs_found, language):
-    
     conn = get_connection()
     if not conn:
         return
-
     try:
         cursor = conn.cursor()
         cursor.execute("""
@@ -242,11 +227,9 @@ def save_bug_history(username, original_code, bugs_found, language):
         conn.close()
 
 def get_total_users():
-    
     conn = get_connection()
     if not conn:
         return 0
-
     try:
         cursor = conn.cursor()
         cursor.execute("SELECT COUNT(*) FROM users")
@@ -260,11 +243,9 @@ def get_total_users():
         return 0
     
 def get_user_progress(username):
-    
     conn = get_connection()
     if not conn:
         return None
-
     try:
         cursor = conn.cursor(
             cursor_factory=psycopg2.extras.RealDictCursor
@@ -277,28 +258,28 @@ def get_user_progress(username):
         )
         total_reviews = cursor.fetchone()["total"]
 
-        
+        # how many times they used bug finder mode
         cursor.execute(
             "SELECT COUNT(*) as total FROM reviews WHERE username = %s AND mode = 'Bug Finder'",
             (username,)
         )
         bugs_fixed = cursor.fetchone()["total"]
 
-        
+        # count distinct topics they've covered so far
         cursor.execute(
             "SELECT COUNT(*) as total FROM topics_learned WHERE username = %s",
             (username,)
         )
         topics_count = cursor.fetchone()["total"]
 
-        
+        # interview mode usage count
         cursor.execute(
             "SELECT COUNT(*) as total FROM reviews WHERE username = %s AND mode = 'Interview Evaluator'",
             (username,)
         )
         interviews_done = cursor.fetchone()["total"]
 
-        
+        # activity grouped by day for the last week - feeds the dashboard chart
         cursor.execute("""
             SELECT
                 DATE(reviewed_at) as date,
@@ -316,7 +297,7 @@ def get_user_progress(username):
                 "count": row["count"]
             })
 
-        
+        # breakdown of which modes they use most (pie chart on dashboard)
         cursor.execute("""
             SELECT mode, COUNT(*) as count
             FROM reviews
@@ -330,7 +311,7 @@ def get_user_progress(username):
                 "count": row["count"]
             })
 
-        
+        # last 5 reviews for the recent activity list
         cursor.execute("""
             SELECT mode, language, reviewed_at
             FROM reviews
