@@ -21,8 +21,9 @@ function Progress() {
             return;
         }
         fetchProgress();
-    }, [username]);
+    }, [username, navigate]);
 
+    // pulls all stats from backend - total reviews, bugs, topics, daily activity
     const fetchProgress = async () => {
         try {
             const res = await fetch(
@@ -284,7 +285,7 @@ function Progress() {
                         )}
                     </div>
 
-                    {/* Mode  Pie Chart */}
+                    {/* feature usage pie chart */}
                     <div style={styles.chartCard}>
                         <p style={styles.chartTitle}>🎯 Feature Usage Breakdown</p>
                         {data?.mode_breakdown?.length > 0 ? (
