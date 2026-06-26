@@ -1,4 +1,4 @@
-/* features.css - Shared styles for all feature pages */
+/* features.css */
 
 .feature-wrapper {
     display: flex;
@@ -9,7 +9,7 @@
     overflow: hidden;
 }
 
-/* ── Sidebar ── */
+/*Sidebar*/
 .sidebar {
     width: 60px;
     background: #0d1117;
@@ -80,7 +80,7 @@
     align-items: center;
 }
 
-/* ── Main Content ── */
+/* Main Content */
 .feature-main {
     flex: 1;
     display: flex;
@@ -88,7 +88,7 @@
     overflow: hidden;
 }
 
-/* ── Top Bar ── */
+/*Top Bar*/
 .topbar {
     display: flex;
     align-items: center;
@@ -137,14 +137,14 @@
     background: #f8514922;
 }
 
-/* ── Feature Content ── */
+/*Feature Content  */
 .feature-content {
     flex: 1;
     display: flex;
     overflow: hidden;
 }
 
-/* ── Left Panel ── */
+/* Left Panel*/
 .left-panel {
     flex: 1;
     display: flex;
@@ -154,7 +154,7 @@
     padding: 24px;
 }
 
-/* ── Right Panel ── */
+/*Right Panel */
 .right-panel {
     width: 50%;
     display: flex;
@@ -163,7 +163,7 @@
     padding: 24px;
 }
 
-/* ── Panel Title ── */
+/*Panel Title*/
 .panel-title {
     font-size: 1rem;
     font-weight: 700;
@@ -174,7 +174,7 @@
     gap: 8px;
 }
 
-/* ── Code Input ── */
+/* Code Input*/
 .code-input-box {
     background: #0d1117;
     border: 1px solid #1f6feb44;
@@ -197,7 +197,7 @@
     border: 1px solid #21262d;
 }
 
-/* ── Language Select ── */
+/*Language Select*/
 .lang-select {
     padding: 8px 12px;
     background: #161b27;
@@ -211,7 +211,7 @@
     width: 100%;
 }
 
-/* ── Text Input ── */
+/* text input - used for hint problem description and code paste areas */
 .text-input {
     width: 100%;
     padding: 12px;
@@ -231,7 +231,7 @@
     box-shadow: 0 0 0 3px rgba(31,111,235,0.15);
 }
 
-/* ── Action Buttons ── */
+/*Action Buttons */
 .action-row {
     display: flex;
     gap: 10px;
@@ -277,7 +277,7 @@
     color: #f85149;
 }
 
-/* ── Result Box ── */
+/*Result Box */
 .result-box {
     background: #0d1117;
     border: 1px solid #21262d;
@@ -293,7 +293,7 @@
     white-space: pre-wrap;
 }
 
-/* ── Score Card ── */
+/* Score Card */
 .score-card {
     background: linear-gradient(135deg, #0d1117, #161b27);
     border: 1px solid #1f6feb;
@@ -333,7 +333,7 @@
     transition: width 1s ease;
 }
 
-/* ── Company Tabs ── */
+/* Company Tabs */
 .company-tabs {
     display: flex;
     gap: 8px;
@@ -358,7 +358,7 @@
     color: #58a6ff;
 }
 
-/* ── Hint Cards ── */
+/* Hint Cards */
 .hint-card {
     background: #0d1117;
     border: 1px solid #21262d;
@@ -421,7 +421,7 @@
     font-size: 12px;
 }
 
-/* ── Complexity Bars ── */
+/*Complexity Bars*/
 .complexity-card {
     background: #0d1117;
     border: 1px solid #21262d;
@@ -469,7 +469,7 @@
     background: linear-gradient(90deg, #f85149, #ff7b72);
 }
 
-/* ── Loading ── */
+/*Loading */
 .loading-state {
     display: flex;
     flex-direction: column;
@@ -490,7 +490,7 @@
     to { transform: rotate(360deg); }
 }
 
-/* ── Empty State ── */
+/*Empty State*/
 .empty-state {
     display: flex;
     flex-direction: column;
@@ -514,7 +514,7 @@
     max-width: 220px;
 }
 
-/* ── Download Button ── */
+/*Download Button*/
 .download-btn {
     width: 100%;
     padding: 10px;
@@ -532,7 +532,7 @@
     background: #1f6feb22;
 }
 
-/* ── Scrollbar ── */
+/*Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #0d1117; }
 ::-webkit-scrollbar-thumb {
