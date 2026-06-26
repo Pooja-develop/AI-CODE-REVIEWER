@@ -3,8 +3,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import Editor from '@monaco-editor/react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/bugfinder.css';
-
-
 import mermaid from 'mermaid';
 
 mermaid.initialize({
@@ -32,7 +30,6 @@ const SIDEBAR_ITEMS = [
 
 function MermaidDiagram({ chart }) {
     const ref = useRef(null);
-
     useEffect(() => {
         if (ref.current && chart) {
             ref.current.innerHTML = chart;
@@ -119,7 +116,7 @@ function BugFinder() {
 
         } catch (err) {
             setBugExplanation(
-                ' Cannot connect to backend!\nMake sure FastAPI is running on port 8000.'
+                ' Cannot connect to backend!Make sure FastAPI is running on port 8000.'
             );
         }
 
