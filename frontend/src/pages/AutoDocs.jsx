@@ -6,9 +6,9 @@ import '../styles/features.css';
 
 const SIDEBAR_ITEMS = [
     { id: 'bug', icon: '🐛', label: 'Bug Finder', path: '/bugfinder' },
-    { id: 'interview', icon: '🎯', label: 'Interview Evaluator', path: '/interview' },
-    { id: 'hint', icon: '💡', label: 'Hint System', path: '/hints' },
-    { id: 'complexity', icon: '📊', label: 'Complexity Analyzer', path: '/complexity' },
+    { id: 'interview', icon: '🎯', label: 'Interview Evaluator', path: '/interview-evaluator' },
+    { id: 'hint', icon: '💡', label: 'Hint System', path: '/hint-system' },
+    { id: 'complexity', icon: '📊', label: 'Complexity Analyzer', path: '/complexity-analyzer' },
     { id: 'docs', icon: '📖', label: 'Auto Documentation', path: '/docs' },
 ];
 
@@ -17,7 +17,6 @@ const LANGUAGES = ['python', 'javascript', 'java', 'cpp', 'c', 'typescript', 'sq
 function AutoDocs() {
     const navigate = useNavigate();
     const username = localStorage.getItem('username');
-
     const [code, setCode] = useState('# Paste your code here...');
     const [language, setLanguage] = useState('python');
     const [loading, setLoading] = useState(false);
@@ -53,12 +52,13 @@ function AutoDocs() {
             setResult(data.result);
 
         } catch (err) {
-            setResult('❌ Cannot connect to backend!');
+            setResult('Cannot connect to backend!');
         }
 
         setLoading(false);
     };
 
+    // convert result to downloadable markdown file
     const handleDownload = () => {
         const blob = new Blob([result], { type: 'text/markdown' });
         const url = URL.createObjectURL(blob);
@@ -67,11 +67,10 @@ function AutoDocs() {
         a.download = 'documentation.md';
         a.click();
     };
-
     return (
         <div className="feature-wrapper">
 
-            {/* Sidebar */}
+            {/*Sidebar*/}
             <div className="sidebar">
                 <div className="sidebar-logo">🤖</div>
                 {SIDEBAR_ITEMS.map(item => (
