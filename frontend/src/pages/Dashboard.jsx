@@ -148,7 +148,7 @@ function Dashboard() {
         setActiveTab('result');
         setDrawerOpen(false);
     };
-
+    // routes to the right handler based on which feature is active
     const handleRunBug = async () => {
         if (!code.trim()) return alert('Please paste code first!');
         setLoading(true);
@@ -615,7 +615,7 @@ function Dashboard() {
                 </>
             );
         }
-        // OUTPUT TAB 
+        // OUTPUT TAB  for all features
         if (activeTab === 'output') {
             return (
                 <div>
@@ -743,7 +743,7 @@ function Dashboard() {
     return (
         <div className="dashboard-wrapper">
 
-            {/* Sidebar */}
+            {/* Sidebar  */}
             <div className="sidebar">
                 <div className="sidebar-logo">🤖</div>
                 {SIDEBAR_FEATURES.map(f => (
@@ -757,27 +757,28 @@ function Dashboard() {
                     </button>
                 ))}
                 <div className="sidebar-bottom">
-                     <button
+                    <button
                         className="sidebar-btn"
-                             onClick={() => navigate('/progress')}
-                       >
-        📈
-                <span className="sidebar-tooltip">Progress</span>
-                </button>
-                                          <button
-                className="sidebar-btn"
-                 onClick={() => { localStorage.removeItem('username'); navigate('/'); }}
-                      >
-        🚪
-                      <span className="sidebar-tooltip">Logout</span>
-                           </button>
-                   </div>
+                        onClick={() => navigate('/progress')}
+                    >
+                        📈
+                        <span className="sidebar-tooltip">Progress</span>
+                    </button>
+                    <button
+                        className="sidebar-btn"
+                        onClick={() => { localStorage.removeItem('username'); navigate('/'); }}
+                    >
+                        🚪
+                        <span className="sidebar-tooltip">Logout</span>
+                    </button>
+                </div>
+            
         </div>
 
             {/* Main Area */}
             <div className="main-area">
 
-                {/* Topbar */}
+                {/* Topbar  */}
                 <div className="topbar">
                     <div className="topbar-left">
                         <span className="active-mode-tag">
