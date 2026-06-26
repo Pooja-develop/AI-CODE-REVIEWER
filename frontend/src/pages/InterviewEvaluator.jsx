@@ -3,18 +3,18 @@ import React, { useState, useEffect } from 'react';
 import Editor from '@monaco-editor/react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/features.css';
+import ReactMarkdown from 'react-markdown';
 
 const SIDEBAR_ITEMS = [
     { id: 'bug', icon: '🐛', label: 'Bug Finder', path: '/bugfinder' },
-    { id: 'interview', icon: '🎯', label: 'Interview Evaluator', path: '/interview' },
-    { id: 'hint', icon: '💡', label: 'Hint System', path: '/hints' },
-    { id: 'complexity', icon: '📊', label: 'Complexity Analyzer', path: '/complexity' },
+    
     { id: 'docs', icon: '📖', label: 'Auto Documentation', path: '/docs' },
-];
+    { id: 'interview', icon: '🎯', label: 'Interview Evaluator', path: '/interview-evaluator' },
+    { id: 'hint', icon: '💡', label: 'Hint System', path: '/hint-system' },
+    { id: 'complexity', icon: '📊', label: 'Complexity Analyzer', path: '/complexity-analyzer' },]
 
 const COMPANIES = ['Google', 'Amazon', 'Meta', 'Apple', 'Netflix'];
 const LANGUAGES = ['python', 'javascript', 'java', 'cpp', 'c', 'typescript', 'sql'];
-
 function InterviewEvaluator() {
     const navigate = useNavigate();
     const username = localStorage.getItem('username');
@@ -221,7 +221,9 @@ function InterviewEvaluator() {
                                 )}
 
                                 <div className="result-box">
-                                    <div className="result-text">{result}</div>
+                                    <div className="result-text">
+                                         <ReactMarkdown>{result}</ReactMarkdown>
+                                    </div>
                                 </div>
 
                                 <button
