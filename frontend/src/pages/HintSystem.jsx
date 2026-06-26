@@ -5,16 +5,15 @@ import '../styles/features.css';
 
 const SIDEBAR_ITEMS = [
     { id: 'bug', icon: '🐛', label: 'Bug Finder', path: '/bugfinder' },
-    { id: 'interview', icon: '🎯', label: 'Interview Evaluator', path: '/interview' },
-    { id: 'hint', icon: '💡', label: 'Hint System', path: '/hints' },
-    { id: 'complexity', icon: '📊', label: 'Complexity Analyzer', path: '/complexity' },
+    { id: 'interview', icon: '🎯', label: 'Interview Evaluator', path: '/interview-evaluator' }, 
+    { id: 'hint', icon: '💡', label: 'Hint System', path: '/hint-system' },
+    { id: 'complexity', icon: '📊', label: 'Complexity Analyzer', path: '/complexity-analyzer' },
     { id: 'docs', icon: '📖', label: 'Auto Documentation', path: '/docs' },
 ];
 
 function HintSystem() {
     const navigate = useNavigate();
     const username = localStorage.getItem('username');
-
     const [problem, setProblem] = useState('');
     const [code, setCode] = useState('');
     const [loading, setLoading] = useState(false);
@@ -222,7 +221,7 @@ function HintSystem() {
                                     <div className="hint-card unlocked"
                                         style={{ borderColor: '#3fb950' }}>
                                         <div className="hint-header">
-                                            <span style={{ fontSize: '1.2rem' }}>
+                                            <span style={{ fontSize: '1.2rem' }}>✅
                                                 
                                             </span>
                                             <span className="hint-title"
