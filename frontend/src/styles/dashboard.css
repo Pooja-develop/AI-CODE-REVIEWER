@@ -15,7 +15,7 @@ body {
     background: #0a0a0f;
 }
 
-/* ── Sidebar ── */
+/* Sidebar */
 .sidebar {
     width: 60px;
     background: #0d1117;
@@ -89,7 +89,7 @@ body {
     align-items: center;
 }
 
-/* ── Main Area ── */
+/* Main Area */
 .main-area {
     flex: 1;
     display: flex;
@@ -97,7 +97,7 @@ body {
     overflow: hidden;
 }
 
-/* ── Topbar ── */
+/* Topbar*/
 .topbar {
     display: flex;
     align-items: center;
@@ -160,14 +160,14 @@ body {
 
 .logout-btn:hover { background: #f8514922; }
 
-/* ── Content Area ── */
+/*Content Area*/
 .content-area {
     flex: 1;
     display: flex;
     overflow: hidden;
 }
 
-/* ── Editor Section ── */
+/*Editor Section*/
 .editor-section {
     flex: 1;
     display: flex;
@@ -253,13 +253,13 @@ body {
     color: #f85149;
 }
 
-/* ── Monaco Container ── */
+/* Monaco Container */
 .monaco-container {
     flex: 1;
     overflow: hidden;
 }
 
-/* ── Hint Extra Input ── */
+/* Hint Extra Input */
 .hint-input-bar {
     padding: 10px 16px;
     background: #0d1117;
@@ -643,7 +643,7 @@ body {
 
 
 
-/* ── Result Text Paragraphs ── */
+/*Result Text Paragraphs */
 .result-text p {
     font-size: 16px;
     line-height: 1.9;
