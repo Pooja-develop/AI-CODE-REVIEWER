@@ -14,44 +14,43 @@ function Signup() {
     const navigate = useNavigate();
 
     const handleSignup = async () => {
-    if (!username || !email || !password || !confirmPassword) {
-        setError('Please fill all fields!');
-        return;
-    }
-    if (password !== confirmPassword) {
-        setError('Passwords do not match!');
-        return;
-    }
-    if (password.length < 6) {
-        setError('Password must be at least 6 characters!');
-        return;
-    }
-
-    setLoading(true);
-    setError('');
-
-    try {
-        const response = await fetch('http://localhost:8000/auth/signup', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, email, password })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            setSuccess(' Account created! Redirecting to login...');
-            setTimeout(() => navigate('/'), 2000);
-        } else {
-            setError(data.message);
+        if (!username || !email || !password || !confirmPassword) {
+            setError('Please fill all fields!');
+            return;
         }
-    } 
-    catch (err) {
-        setError('Cannot connect to server!');
-    }
+        if (password !== confirmPassword) {
+            setError('Passwords do not match!');
+            return;
+        }
+        if (password.length < 6) {
+            setError('Password must be at least 6 characters!');
+            return;
+        }
 
-    setLoading(false);
-};
+        setLoading(true);
+        setError('');
+
+        try {
+            const response = await fetch('http://localhost:8000/auth/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, password })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                setSuccess('Account created! Redirecting to login...');
+                setTimeout(() => navigate('/'), 2000);
+            } else {
+                setError(data.message);
+            }
+        } catch (err) {
+            setError('Cannot connect to server!');
+        }
+
+        setLoading(false);
+    };
     return (
         <div className="auth-wrapper">
             <div className="auth-card">
@@ -102,8 +101,8 @@ function Signup() {
                     />
                 </div>
 
-                {error && <div className="error-msg"> {error}</div>}
-                {success && <div className="success-msg"> {success}</div>}
+                {error && <div className="error-msg">{error}</div>}
+                {success && <div className="success-msg">{success}</div>}
 
                 <button
                     className="btn-primary"
