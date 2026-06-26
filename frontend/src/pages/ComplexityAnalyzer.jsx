@@ -6,9 +6,9 @@ import '../styles/features.css';
 
 const SIDEBAR_ITEMS = [
     { id: 'bug', icon: '🐛', label: 'Bug Finder', path: '/bugfinder' },
-    { id: 'interview', icon: '🎯', label: 'Interview Evaluator', path: '/interview' },
-    { id: 'hint', icon: '💡', label: 'Hint System', path: '/hints' },
-    { id: 'complexity', icon: '📊', label: 'Complexity Analyzer', path: '/complexity' },
+    { id: 'interview', icon: '🎯', label: 'Interview Evaluator', path: '/interview-evaluator' },
+    { id: 'hint', icon: '💡', label: 'Hint System', path: '/hint-system' },
+    { id: 'complexity', icon: '📊', label: 'Complexity Analyzer', path: '/complexity-analyzer' },
     { id: 'docs', icon: '📖', label: 'Auto Documentation', path: '/docs' },
 ];
 
@@ -17,7 +17,6 @@ const LANGUAGES = ['python', 'javascript', 'java', 'cpp', 'c', 'typescript', 'sq
 function ComplexityAnalyzer() {
     const navigate = useNavigate();
     const username = localStorage.getItem('username');
-
     const [code, setCode] = useState('# Paste your code here...');
     const [language, setLanguage] = useState('python');
     const [loading, setLoading] = useState(false);
@@ -28,7 +27,7 @@ function ComplexityAnalyzer() {
     useEffect(() => {
         if (!username) navigate('/');
     }, [username, navigate]);
-
+     // maps Big O notation to a bar width percentage for visual display
     const getComplexityWidth = (complexity) => {
         if (!complexity) return 30;
         if (complexity.includes('1')) return 10;
@@ -39,7 +38,7 @@ function ComplexityAnalyzer() {
         if (complexity.includes('n³') || complexity.includes('n^3')) return 90;
         return 50;
     };
-
+   // good = green, okay = yellow, bad = red on the complexity bar
     const getComplexityClass = (complexity) => {
         if (!complexity) return 'okay';
         if (complexity.includes('1') || complexity.includes('log')) return 'good';
@@ -73,8 +72,6 @@ function ComplexityAnalyzer() {
 
             const data = await response.json();
             setResult(data.result);
-
-            
             const timeMatch = data.result.match(/Time Complexity[:\s]+O\([^)]+\)/i);
             const spaceMatch = data.result.match(/Space Complexity[:\s]+O\([^)]+\)/i);
 
