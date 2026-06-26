@@ -10,8 +10,8 @@ function Login() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    
-const handleLogin = async () => {
+    // checks credentials against backend and stores username in localStorage on succes
+    const handleLogin = async () => {
     if (!username || !password) {
         setError('Please fill all fields!');
         return;
@@ -49,10 +49,7 @@ const handleLogin = async () => {
                 <div className="auth-logo">🤖</div>
                 <h1 className="auth-title">AI Code Reviewer</h1>
                 <p className="auth-subtitle">Sign in to your account</p>
-
                 <hr className="auth-divider" />
-
-                
                 <div className="form-group">
                     <label>👤 Username</label>
                     <input
@@ -76,7 +73,7 @@ const handleLogin = async () => {
                 </div>
 
                 {/* Error */}
-                {error && <div className="error-msg"> {error}</div>}
+                {error && <div className="error-msg">{error}</div>}
 
                 {/* Login Button */}
                 <button
