@@ -18,9 +18,9 @@ function App() {
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/bugfinder" element={<BugFinder />} />
-                <Route path="/InterviewEvaluator" element={<InterviewEvaluator />} />
-                <Route path="/HintSystem" element={<HintSystem />} />
-                <Route path="/ComplexityAnalyzer" element={<ComplexityAnalyzer  />} />
+                <Route path="/interview-evaluator" element={<InterviewEvaluator />} />
+                <Route path="/hint-system" element={<HintSystem />} />
+                <Route path="/complexity-analyzer" element={<ComplexityAnalyzer />} />
                 <Route path="/AutoDocs" element={<AutoDocs />} />
                 <Route path="/progress" element={<Progress />} />
             </Routes>
